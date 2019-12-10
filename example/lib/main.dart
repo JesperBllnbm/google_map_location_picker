@@ -20,7 +20,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+        brightness: Brightness.light
+
+      ),
       title: 'location picker',
       localizationsDelegates: const [
         location_picker.S.delegate,
@@ -47,7 +50,7 @@ class _MyAppState extends State<MyApp> {
                     LocationResult result = await LocationPicker.pickLocation(
                       context,
                       apiKey,
-                      mapStylePath: 'assets/mapStyle.txt',
+                      //mapStylePath: 'assets/mapStyle.txt',
                       //resultCardAlignment: Alignment.bottomCenter,
 
                     );
