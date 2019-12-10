@@ -16,10 +16,8 @@ class SearchInput extends StatefulWidget {
     this.searchInputKey,
     BoxDecoration boxDecoration,
     String hintText,
-  })  : _boxDecoration = boxDecoration ??
-            BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-              color: Colors.black54),
+  })  : _boxDecoration = boxDecoration,
+
         _hintText = hintText ?? "Search place",
         super(key: key);
 
@@ -118,7 +116,9 @@ class SearchInputState extends State {
               : SizedBox(),
         ],
       ),
-      decoration: _boxDecoration,
+      decoration: _boxDecoration ??  BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Theme.of(context).canvasColor),
     );
   }
 }

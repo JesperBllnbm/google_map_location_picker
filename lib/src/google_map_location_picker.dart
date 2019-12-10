@@ -28,7 +28,7 @@ class LocationPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
-    this.appBarColor = Colors.transparent,
+    this.appBarColor = Colors.transparent, this.appBarElevation = 0,
   });
 
   final String mapStylePath;
@@ -39,6 +39,7 @@ class LocationPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+  final double appBarElevation;
 
   final String apiKey;
 
@@ -66,6 +67,7 @@ class LocationPicker extends StatefulWidget {
     Alignment resultCardAlignment,
     Decoration resultCardDecoration,
     EdgeInsets resultCardPadding,
+
     LatLng initialCenter = const LatLng(45.521563, -122.677433),
     bool requiredGPS = true,
   }) async {
@@ -115,6 +117,8 @@ class LocationPickerState extends State<LocationPicker> {
   var searchInputKey = GlobalKey<SearchInputState>();
 
   bool hasSearchTerm = false;
+
+
 
   /// Hides the autocomplete overlay
   void clearOverlay() {
@@ -387,6 +391,7 @@ class LocationPickerState extends State<LocationPicker> {
 
   @override
   Widget build(BuildContext context) {
+    print(Theme.of(context).iconTheme.color);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocationProvider()),
@@ -395,7 +400,8 @@ class LocationPickerState extends State<LocationPicker> {
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
-            elevation: 0,
+            iconTheme: Theme.of(context).iconTheme,
+            elevation: widget.appBarElevation,
             backgroundColor: widget.appBarColor,
             key: appBarKey,
             title: SearchInput(

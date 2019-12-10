@@ -100,15 +100,7 @@ class MapPickerState extends State<MapPicker> {
       });
     }
 
-    resultCardConfirmWidget = widget.resultCardConfirmWidget ??
-        Container(
-          height: 56,
-          width: 56,
-          decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.black54),
-          child: Icon(
-            Icons.arrow_forward
-          ),
-        );
+    resultCardConfirmWidget = widget.resultCardConfirmWidget;
   }
 
   @override
@@ -183,7 +175,7 @@ class MapPickerState extends State<MapPicker> {
         child: Container(
           decoration: widget.resultCardDecoration ??
               BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.circular(8.0)),
           child: Consumer<LocationProvider>(
               builder: (context, locationProvider, _) {
@@ -223,7 +215,15 @@ class MapPickerState extends State<MapPicker> {
                         )
                       });
                     },
-                    child: resultCardConfirmWidget,
+                    child: resultCardConfirmWidget ??
+                    Container(
+                    height: 56,
+                    width: 56,
+                    decoration: BoxDecoration(shape: BoxShape.circle,color: Theme.of(context).primaryColor),
+                    child: Icon(
+                        Icons.arrow_forward
+                    ),
+                  ),
                   )
                 ],
               ),
