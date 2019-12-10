@@ -279,7 +279,7 @@ class MapPickerState extends State<MapPicker> {
   Future moveToCurrentLocation(LatLng currentLocation) async {
     var controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: currentLocation, zoom: 19.151926040649414),
+      CameraPosition(target: currentLocation, zoom: 14),
     ));
   }
 
