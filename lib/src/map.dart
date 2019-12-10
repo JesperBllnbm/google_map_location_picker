@@ -146,7 +146,7 @@ class MapPickerState extends State<MapPicker> {
             },
             initialCameraPosition: CameraPosition(
               target: widget.initialCenter,
-              zoom: 11,
+              zoom: 14,
             ),
             onCameraMove: (CameraPosition position) {
               _lastMapPosition = position.target;
