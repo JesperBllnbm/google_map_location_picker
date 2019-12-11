@@ -174,19 +174,20 @@ class MapPickerState extends State<MapPicker> {
       alignment: widget.resultCardAlignment ?? Alignment.bottomCenter,
       child: Padding(
         padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
-        child: Container(
-          decoration: widget.resultCardDecoration ??
-              BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  borderRadius: BorderRadius.circular(8.0)),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                widget.resultCardHeaderWidget ?? Container(),
-                Consumer<LocationProvider>(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            widget.resultCardHeaderWidget ?? Container(),
+            Container(
+              decoration: widget.resultCardDecoration ??
+                  BoxDecoration(
+                      color: Theme.of(context).canvasColor,
+                      borderRadius: BorderRadius.circular(8.0)),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Consumer<LocationProvider>(
                     builder: (context, locationProvider, _) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -236,9 +237,9 @@ class MapPickerState extends State<MapPicker> {
                     ],
                   );
                 }),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
