@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
@@ -172,74 +173,79 @@ class MapPickerState extends State<MapPicker> {
   Widget locationCard() {
     return Align(
       alignment: widget.resultCardAlignment ?? Alignment.bottomCenter,
-      child: Padding(
-        padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            widget.resultCardHeaderWidget ?? Container(),
-            Container(
-              decoration: widget.resultCardDecoration ??
-                  BoxDecoration(
-                      color: Theme.of(context).canvasColor,
-                      borderRadius: BorderRadius.circular(8.0)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Consumer<LocationProvider>(
-                    builder: (context, locationProvider, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 20,
-                        child: FutureLoadingBuilder<String>(
-                            future:
-                                getAddress(locationProvider.lastIdleLocation),
-                            mutable: true,
-                            loadingIndicator: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                CircularProgressIndicator(),
-                              ],
-                            ),
-                            builder: (context, address) {
-                              _address = address;
-                              return Text(
-                                address ?? 'Unnamed place',
-                                style: TextStyle(
-                                  fontSize: 18,
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Padding(
+            padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                widget.resultCardHeaderWidget ?? Container(),
+                Container(
+                  decoration: widget.resultCardDecoration ??
+                      BoxDecoration(
+                          color: Theme.of(context).canvasColor,
+                          borderRadius: BorderRadius.circular(8.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Consumer<LocationProvider>(
+                        builder: (context, locationProvider, _) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 20,
+                            child: FutureLoadingBuilder<String>(
+                                future:
+                                    getAddress(locationProvider.lastIdleLocation),
+                                mutable: true,
+                                loadingIndicator: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    CircularProgressIndicator(),
+                                  ],
                                 ),
-                              );
-                            }),
-                      ),
-                      Spacer(),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop({
-                            'location': LocationResult(
-                              latLng: locationProvider.lastIdleLocation,
-                              address: _address,
-                            )
-                          });
-                        },
-                        child: resultCardConfirmWidget ??
-                            Container(
-                              height: 56,
-                              width: 56,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Theme.of(context).primaryColor),
-                              child: Icon(Icons.arrow_forward),
-                            ),
-                      )
-                    ],
-                  );
-                }),
-              ),
+                                builder: (context, address) {
+                                  _address = address;
+                                  return Text(
+                                    address ?? 'Unnamed place',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  );
+                                }),
+                          ),
+                          Spacer(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop({
+                                'location': LocationResult(
+                                  latLng: locationProvider.lastIdleLocation,
+                                  address: _address,
+                                )
+                              });
+                            },
+                            child: resultCardConfirmWidget ??
+                                Container(
+                                  height: 56,
+                                  width: 56,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Theme.of(context).primaryColor),
+                                  child: Icon(Icons.arrow_forward),
+                                ),
+                          )
+                        ],
+                      );
+                    }),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
