@@ -28,7 +28,9 @@ class LocationPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
-    this.appBarColor = Colors.transparent, this.appBarElevation = 0,
+    this.appBarColor = Colors.transparent,
+    this.appBarElevation = 0,
+    this.resultCardHeaderWidget,
   });
 
   final String mapStylePath;
@@ -36,6 +38,7 @@ class LocationPicker extends StatefulWidget {
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
   final Widget resultCardConfirmWidget;
+  final Widget resultCardHeaderWidget;
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
@@ -64,10 +67,10 @@ class LocationPicker extends StatefulWidget {
     BoxDecoration searchBarBoxDecoration,
     String hintText,
     Widget resultCardConfirmWidget,
+    Widget resultCardHeaderWidget,
     Alignment resultCardAlignment,
     Decoration resultCardDecoration,
     EdgeInsets resultCardPadding,
-
     LatLng initialCenter = const LatLng(45.521563, -122.677433),
     bool requiredGPS = true,
   }) async {
@@ -82,6 +85,7 @@ class LocationPicker extends StatefulWidget {
             hintText: hintText,
             searchBarBoxDecoration: searchBarBoxDecoration,
             resultCardConfirmWidget: resultCardConfirmWidget,
+            resultCardHeaderWidget: resultCardHeaderWidget,
             resultCardAlignment: resultCardAlignment,
             resultCardPadding: resultCardPadding,
             resultCardDecoration: resultCardDecoration,
@@ -117,8 +121,6 @@ class LocationPickerState extends State<LocationPicker> {
   var searchInputKey = GlobalKey<SearchInputState>();
 
   bool hasSearchTerm = false;
-
-
 
   /// Hides the autocomplete overlay
   void clearOverlay() {
@@ -412,6 +414,7 @@ class LocationPickerState extends State<LocationPicker> {
           body: MapPicker(
             mapStylePath: widget.mapStylePath,
             resultCardConfirmWidget: widget.resultCardConfirmWidget,
+            resultCardHeaderWidget: widget.resultCardHeaderWidget,
             resultCardAlignment: widget.resultCardAlignment,
             resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,

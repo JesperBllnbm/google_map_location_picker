@@ -26,6 +26,7 @@ class MapPicker extends StatefulWidget {
   final EdgeInsets resultCardPadding;
   final AlignmentGeometry resultCardAlignment;
   final Widget resultCardConfirmWidget;
+  final Widget resultCardHeaderWidget;
 
   const MapPicker({
     Key key,
@@ -37,6 +38,7 @@ class MapPicker extends StatefulWidget {
     this.resultCardPadding,
     this.resultCardAlignment,
     this.resultCardConfirmWidget,
+    this.resultCardHeaderWidget,
   }) : super(key: key);
 
   @override
@@ -177,58 +179,66 @@ class MapPickerState extends State<MapPicker> {
               BoxDecoration(
                   color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.circular(8.0)),
-          child: Consumer<LocationProvider>(
-              builder: (context, locationProvider, _) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 20,
-                    child: FutureLoadingBuilder<String>(
-                        future: getAddress(locationProvider.lastIdleLocation),
-                        mutable: true,
-                        loadingIndicator: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CircularProgressIndicator(),
-                          ],
-                        ),
-                        builder: (context, address) {
-                          _address = address;
-                          return Text(
-                            address ?? 'Unnamed place',
-                            style: TextStyle(
-                              fontSize: 18,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                widget.resultCardHeaderWidget ?? Container(),
+                Consumer<LocationProvider>(
+                    builder: (context, locationProvider, _) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        flex: 20,
+                        child: FutureLoadingBuilder<String>(
+                            future:
+                                getAddress(locationProvider.lastIdleLocation),
+                            mutable: true,
+                            loadingIndicator: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                CircularProgressIndicator(),
+                              ],
                             ),
-                          );
-                        }),
-                  ),
-                  Spacer(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          address: _address,
-                        )
-                      });
-                    },
-                    child: resultCardConfirmWidget ??
-                    Container(
-                    height: 56,
-                    width: 56,
-                    decoration: BoxDecoration(shape: BoxShape.circle,color: Theme.of(context).primaryColor),
-                    child: Icon(
-                        Icons.arrow_forward
-                    ),
-                  ),
-                  )
-                ],
-              ),
-            );
-          }),
+                            builder: (context, address) {
+                              _address = address;
+                              return Text(
+                                address ?? 'Unnamed place',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              );
+                            }),
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop({
+                            'location': LocationResult(
+                              latLng: locationProvider.lastIdleLocation,
+                              address: _address,
+                            )
+                          });
+                        },
+                        child: resultCardConfirmWidget ??
+                            Container(
+                              height: 56,
+                              width: 56,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).primaryColor),
+                              child: Icon(Icons.arrow_forward),
+                            ),
+                      )
+                    ],
+                  );
+                }),
+              ],
+            ),
+          ),
         ),
       ),
     );

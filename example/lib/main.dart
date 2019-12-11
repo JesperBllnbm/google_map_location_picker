@@ -50,6 +50,7 @@ class _MyAppState extends State<MyApp> {
                     LocationResult result = await LocationPicker.pickLocation(
                       context,
                       apiKey,
+                      resultCardHeaderWidget: Text("tfgdfghfdghdfhgdfhgdhfgdxd", style: TextStyle(color: Colors.blue),),
                       //mapStylePath: 'assets/mapStyle.txt',
                       //resultCardAlignment: Alignment.bottomCenter,
 
